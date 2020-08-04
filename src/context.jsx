@@ -2,13 +2,27 @@ import React, { Component } from "react";
 import { storeProducts, detailProduct } from "./data";
 
 const ProductContext = React.createContext();
-// Provider
-// Consumer
 
 class ProductProvider extends Component {
   state = {
-    products: storeProducts,
+    products: [],
     detailProduct: detailProduct,
+  };
+
+  componentDidMount() {
+    this.setProducts();
+  }
+
+  // create original values versus referenced values
+  setProducts = () => {
+    let tempProducts = [];
+    storeProducts.forEach((item) => {
+      const singleItem = { ...item };
+      tempProducts = [...tempProducts, singleItem];
+    });
+    this.setState(() => {
+      return { products: tempProducts };
+    });
   };
 
   handleDetail = () => {
